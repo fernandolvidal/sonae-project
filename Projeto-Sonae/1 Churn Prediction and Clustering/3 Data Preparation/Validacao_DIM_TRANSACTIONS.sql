@@ -1,0 +1,19 @@
+SELECT
+t1.CUSTOMER_CARD_KEY_MASK,
+t1.MERCH_KEY,
+t1.PAYMENT_VALUE,
+t1.TIME_KEY,
+t1.TRANSACTION_TIME_KEY,
+t1.TRANSACTION_ID_MASK
+FROM
+cartaocontinente.dim_transactions t1
+/* Descartando as colunas da DIM_TRANSACTION:
+Descartar as seguintes colunas: 
+t1.GROSS_SLS_AMT
+t1.NET_SLS_AMT
+t1.QTY
+t1.PAYMENT_ID
+t1.VAT_RATE
+t1.VAT_AMOUNT
+t1.TRANSACTION_HOUR_KEY
+*/

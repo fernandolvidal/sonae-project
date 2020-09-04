@@ -1,0 +1,88 @@
+<Schema name="Cubo Projecto BI Final">
+  <Cube name="Cubo Projecto BI Final" visible="true" cache="true" enabled="true">
+    <Table name="fact_table_DW">
+    </Table>
+    <Dimension type="StandardDimension" visible="true" foreignKey="CUSTOMER_ID" highCardinality="false" name="Customer">
+      <Hierarchy name="Clientes" visible="true" hasAll="true" primaryKey="CUSTOMER_ID">
+        <Table name="dim_customer_DW">
+        </Table>
+        <Level name="Clientes" visible="true" table="dim_customer_DW" column="CUSTOMER_ACCOUNT_MASK" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+      <Hierarchy name="Segmento Baby" visible="true" hasAll="true" primaryKey="CUSTOMER_ID">
+        <Table name="dim_customer_DW">
+        </Table>
+        <Level name="Segmento Baby" visible="true" table="dim_customer_DW" column="SEGM_BABY_DSC" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+      <Hierarchy name="Segmento Junior" visible="true" hasAll="true" primaryKey="CUSTOMER_ID">
+        <Table name="dim_customer_DW">
+        </Table>
+        <Level name="Segmento Junior" visible="true" table="dim_customer_DW" column="SEGM_JUNIOR_DSC" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+      <Hierarchy name="Segmento Lifestage" visible="true" hasAll="true" primaryKey="CUSTOMER_ID">
+        <Table name="dim_customer_DW">
+        </Table>
+        <Level name="Segmento Lifestage" visible="true" table="dim_customer_DW" column="SEGM_LIFESTAGE_DSC" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="time_ID" highCardinality="false" name="Time">
+      <Hierarchy name="Time" visible="true" hasAll="true" primaryKey="TIME_ID">
+        <Table name="dim_time_DW">
+        </Table>
+        <Level name="Year" visible="true" table="dim_time_DW" column="YEAR" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="Month" visible="true" table="dim_time_DW" column="MONTH_DSC" ordinalColumn="MONTH" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="Day" visible="true" table="dim_time_DW" column="DAY" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="MERCH_ID" highCardinality="false" name="Merchant">
+      <Hierarchy name="Merchant" visible="true" hasAll="true" primaryKey="MERCH_ID">
+        <Table name="dim_merchant_DW">
+        </Table>
+        <Level name="Hierarchy_Parent_dsc" visible="true" table="dim_merchant_DW" column="HIERARCHY_PARENT_DSC" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="Hierarchy_dsc" visible="true" table="dim_merchant_DW" column="HIERARCHY_DSC" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="Merch_dsc" visible="true" table="dim_merchant_DW" column="MERCH_DSC" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+      <Hierarchy name="Ecossistema" visible="true" hasAll="true" primaryKey="MERCH_ID">
+        <Table name="dim_merchant_DW">
+        </Table>
+        <Level name="Ecossistema" visible="true" table="dim_merchant_DW" column="ECOSSISTEMA_CC" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="GEO_ID" highCardinality="false" name="Geo">
+      <Hierarchy name="Geo Customer" visible="true" hasAll="true" primaryKey="GEO_ID">
+        <Table name="dim_geo_transac_DW">
+        </Table>
+        <Level name="Customer Country" visible="true" table="dim_geo_transac_DW" column="CUSTOMER_COUNTRY" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="Customer District" visible="true" table="dim_geo_transac_DW" column="CUSTOMER_DISTRICT" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+      <Hierarchy name="Geo Merchant" visible="true" hasAll="true" primaryKey="GEO_ID">
+        <Table name="dim_geo_transac_DW">
+        </Table>
+        <Level name="Merchant Country" visible="true" table="dim_geo_transac_DW" column="MERCH_COUNTRY" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="Merchant District" visible="true" table="dim_geo_transac_DW" column="MERCH_DISTRICT" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="Valor Pagamentos" column="PAYMENT_VALUE" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="N&#186; Transa&#231;&#245;es" column="TRANSACTION_ID_MASK" datatype="Numeric" aggregator="count" visible="true">
+    </Measure>
+    <Measure name="N&#186; Clientes" column="CUSTOMER_ID" datatype="Numeric" aggregator="distinct count" visible="true">
+    </Measure>
+    <Measure name="Valor M&#233;dio por Transa&#231;&#227;o" column="PAYMENT_VALUE" datatype="Numeric" aggregator="avg" visible="true">
+    </Measure>
+  </Cube>
+</Schema>

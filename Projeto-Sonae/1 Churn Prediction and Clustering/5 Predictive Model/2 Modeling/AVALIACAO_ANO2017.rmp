@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="9.2.000">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="9.2.000" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="false" class="retrieve" compatibility="9.2.000" expanded="true" height="68" name="Retrieve TREINO_17_balanced" width="90" x="45" y="85">
+        <parameter key="repository_entry" value="TREINO_17_balanced"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.2.000" expanded="true" height="68" name="Retrieve treino_17_ohe_50" width="90" x="45" y="187">
+        <parameter key="repository_entry" value="treino_17_ohe_50"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.2.000" expanded="true" height="68" name="Retrieve teste_17_ohe" width="90" x="45" y="544">
+        <parameter key="repository_entry" value="teste_17_ohe"/>
+      </operator>
+      <operator activated="false" class="h2o:gradient_boosted_trees" compatibility="9.2.000" expanded="true" height="103" name="Gradient Boosted Trees" width="90" x="112" y="799">
+        <parameter key="number_of_trees" value="100"/>
+        <parameter key="reproducible" value="false"/>
+        <parameter key="maximum_number_of_threads" value="4"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <parameter key="maximal_depth" value="10"/>
+        <parameter key="min_rows" value="10.0"/>
+        <parameter key="min_split_improvement" value="0.0"/>
+        <parameter key="number_of_bins" value="20"/>
+        <parameter key="learning_rate" value="0.01"/>
+        <parameter key="sample_rate" value="1.0"/>
+        <parameter key="distribution" value="AUTO"/>
+        <parameter key="early_stopping" value="false"/>
+        <parameter key="stopping_rounds" value="1"/>
+        <parameter key="stopping_metric" value="AUTO"/>
+        <parameter key="stopping_tolerance" value="0.001"/>
+        <parameter key="max_runtime_seconds" value="0"/>
+        <list key="expert_parameters"/>
+      </operator>
+      <operator activated="true" class="multiply" compatibility="9.2.000" expanded="true" height="124" name="Multiply (2)" width="90" x="45" y="646"/>
+      <operator activated="true" class="multiply" compatibility="9.2.000" expanded="true" height="124" name="Multiply (3)" width="90" x="45" y="340"/>
+      <operator activated="true" class="h2o:gradient_boosted_trees" compatibility="9.2.000" expanded="true" height="103" name="Gradient Boosted Trees (2)" width="90" x="380" y="595">
+        <parameter key="number_of_trees" value="100"/>
+        <parameter key="reproducible" value="false"/>
+        <parameter key="maximum_number_of_threads" value="4"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <parameter key="maximal_depth" value="10"/>
+        <parameter key="min_rows" value="10.0"/>
+        <parameter key="min_split_improvement" value="0.0"/>
+        <parameter key="number_of_bins" value="20"/>
+        <parameter key="learning_rate" value="0.01"/>
+        <parameter key="sample_rate" value="1.0"/>
+        <parameter key="distribution" value="AUTO"/>
+        <parameter key="early_stopping" value="false"/>
+        <parameter key="stopping_rounds" value="1"/>
+        <parameter key="stopping_metric" value="AUTO"/>
+        <parameter key="stopping_tolerance" value="0.001"/>
+        <parameter key="max_runtime_seconds" value="0"/>
+        <list key="expert_parameters"/>
+      </operator>
+      <operator activated="true" class="apply_model" compatibility="9.2.000" expanded="true" height="82" name="GBT" width="90" x="514" y="748">
+        <list key="application_parameters"/>
+        <parameter key="create_view" value="false"/>
+      </operator>
+      <operator activated="true" class="performance_binominal_classification" compatibility="9.2.000" expanded="true" height="82" name="GBT (2)" width="90" x="581" y="544">
+        <parameter key="main_criterion" value="first"/>
+        <parameter key="accuracy" value="false"/>
+        <parameter key="classification_error" value="true"/>
+        <parameter key="kappa" value="false"/>
+        <parameter key="AUC (optimistic)" value="false"/>
+        <parameter key="AUC" value="true"/>
+        <parameter key="AUC (pessimistic)" value="false"/>
+        <parameter key="precision" value="true"/>
+        <parameter key="recall" value="true"/>
+        <parameter key="lift" value="false"/>
+        <parameter key="fallout" value="false"/>
+        <parameter key="f_measure" value="true"/>
+        <parameter key="false_positive" value="false"/>
+        <parameter key="false_negative" value="false"/>
+        <parameter key="true_positive" value="false"/>
+        <parameter key="true_negative" value="false"/>
+        <parameter key="sensitivity" value="true"/>
+        <parameter key="specificity" value="true"/>
+        <parameter key="youden" value="false"/>
+        <parameter key="positive_predictive_value" value="false"/>
+        <parameter key="negative_predictive_value" value="false"/>
+        <parameter key="psep" value="false"/>
+        <parameter key="skip_undefined_labels" value="true"/>
+        <parameter key="use_example_weights" value="true"/>
+      </operator>
+      <operator activated="true" class="concurrency:parallel_random_forest" compatibility="9.2.000" expanded="true" height="103" name="Random Forest" width="90" x="246" y="289">
+        <parameter key="number_of_trees" value="100"/>
+        <parameter key="criterion" value="gain_ratio"/>
+        <parameter key="maximal_depth" value="10"/>
+        <parameter key="apply_pruning" value="false"/>
+        <parameter key="confidence" value="0.1"/>
+        <parameter key="apply_prepruning" value="true"/>
+        <parameter key="minimal_gain" value="0.01"/>
+        <parameter key="minimal_leaf_size" value="5"/>
+        <parameter key="minimal_size_for_split" value="4"/>
+        <parameter key="number_of_prepruning_alternatives" value="3"/>
+        <parameter key="random_splits" value="false"/>
+        <parameter key="guess_subset_ratio" value="true"/>
+        <parameter key="subset_ratio" value="0.2"/>
+        <parameter key="voting_strategy" value="confidence vote"/>
+        <parameter key="use_local_random_seed" value="true"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <parameter key="enable_parallel_execution" value="true"/>
+      </operator>
+      <operator activated="true" class="concurrency:parallel_decision_tree" compatibility="9.2.000" expanded="true" height="103" name="Decision Tree" width="90" x="246" y="34">
+        <parameter key="criterion" value="gain_ratio"/>
+        <parameter key="maximal_depth" value="10"/>
+        <parameter key="apply_pruning" value="true"/>
+        <parameter key="confidence" value="0.1"/>
+        <parameter key="apply_prepruning" value="true"/>
+        <parameter key="minimal_gain" value="0.01"/>
+        <parameter key="minimal_leaf_size" value="5"/>
+        <parameter key="minimal_size_for_split" value="4"/>
+        <parameter key="number_of_prepruning_alternatives" value="3"/>
+      </operator>
+      <operator activated="true" class="apply_model" compatibility="9.2.000" expanded="true" height="82" name="DT" width="90" x="380" y="187">
+        <list key="application_parameters"/>
+        <parameter key="create_view" value="false"/>
+      </operator>
+      <operator activated="true" class="performance_binominal_classification" compatibility="9.2.000" expanded="true" height="82" name="DT (2)" width="90" x="514" y="85">
+        <parameter key="main_criterion" value="first"/>
+        <parameter key="accuracy" value="true"/>
+        <parameter key="classification_error" value="true"/>
+        <parameter key="kappa" value="false"/>
+        <parameter key="AUC (optimistic)" value="false"/>
+        <parameter key="AUC" value="true"/>
+        <parameter key="AUC (pessimistic)" value="false"/>
+        <parameter key="precision" value="true"/>
+        <parameter key="recall" value="true"/>
+        <parameter key="lift" value="false"/>
+        <parameter key="fallout" value="false"/>
+        <parameter key="f_measure" value="true"/>
+        <parameter key="false_positive" value="false"/>
+        <parameter key="false_negative" value="false"/>
+        <parameter key="true_positive" value="false"/>
+        <parameter key="true_negative" value="false"/>
+        <parameter key="sensitivity" value="true"/>
+        <parameter key="specificity" value="true"/>
+        <parameter key="youden" value="false"/>
+        <parameter key="positive_predictive_value" value="false"/>
+        <parameter key="negative_predictive_value" value="false"/>
+        <parameter key="psep" value="false"/>
+        <parameter key="skip_undefined_labels" value="true"/>
+        <parameter key="use_example_weights" value="true"/>
+      </operator>
+      <operator activated="true" class="apply_model" compatibility="9.2.000" expanded="true" height="82" name="RF" width="90" x="313" y="493">
+        <list key="application_parameters"/>
+        <parameter key="create_view" value="false"/>
+      </operator>
+      <operator activated="true" class="performance_binominal_classification" compatibility="9.2.000" expanded="true" height="82" name="RF (2)" width="90" x="447" y="391">
+        <parameter key="main_criterion" value="first"/>
+        <parameter key="accuracy" value="true"/>
+        <parameter key="classification_error" value="true"/>
+        <parameter key="kappa" value="false"/>
+        <parameter key="AUC (optimistic)" value="false"/>
+        <parameter key="AUC" value="true"/>
+        <parameter key="AUC (pessimistic)" value="false"/>
+        <parameter key="precision" value="true"/>
+        <parameter key="recall" value="true"/>
+        <parameter key="lift" value="false"/>
+        <parameter key="fallout" value="false"/>
+        <parameter key="f_measure" value="true"/>
+        <parameter key="false_positive" value="false"/>
+        <parameter key="false_negative" value="false"/>
+        <parameter key="true_positive" value="false"/>
+        <parameter key="true_negative" value="false"/>
+        <parameter key="sensitivity" value="true"/>
+        <parameter key="specificity" value="true"/>
+        <parameter key="youden" value="false"/>
+        <parameter key="positive_predictive_value" value="false"/>
+        <parameter key="negative_predictive_value" value="false"/>
+        <parameter key="psep" value="false"/>
+        <parameter key="skip_undefined_labels" value="true"/>
+        <parameter key="use_example_weights" value="true"/>
+      </operator>
+      <connect from_op="Retrieve treino_17_ohe_50" from_port="output" to_op="Multiply (3)" to_port="input"/>
+      <connect from_op="Retrieve teste_17_ohe" from_port="output" to_op="Multiply (2)" to_port="input"/>
+      <connect from_op="Multiply (2)" from_port="output 1" to_op="GBT" to_port="unlabelled data"/>
+      <connect from_op="Multiply (2)" from_port="output 2" to_op="DT" to_port="unlabelled data"/>
+      <connect from_op="Multiply (2)" from_port="output 3" to_op="RF" to_port="unlabelled data"/>
+      <connect from_op="Multiply (3)" from_port="output 1" to_op="Decision Tree" to_port="training set"/>
+      <connect from_op="Multiply (3)" from_port="output 2" to_op="Random Forest" to_port="training set"/>
+      <connect from_op="Multiply (3)" from_port="output 3" to_op="Gradient Boosted Trees (2)" to_port="training set"/>
+      <connect from_op="Gradient Boosted Trees (2)" from_port="model" to_op="GBT" to_port="model"/>
+      <connect from_op="GBT" from_port="labelled data" to_op="GBT (2)" to_port="labelled data"/>
+      <connect from_op="GBT (2)" from_port="performance" to_port="result 2"/>
+      <connect from_op="Random Forest" from_port="model" to_op="RF" to_port="model"/>
+      <connect from_op="Random Forest" from_port="weights" to_port="result 4"/>
+      <connect from_op="Decision Tree" from_port="model" to_op="DT" to_port="model"/>
+      <connect from_op="Decision Tree" from_port="weights" to_port="result 6"/>
+      <connect from_op="DT" from_port="labelled data" to_op="DT (2)" to_port="labelled data"/>
+      <connect from_op="DT" from_port="model" to_port="result 5"/>
+      <connect from_op="DT (2)" from_port="performance" to_port="result 1"/>
+      <connect from_op="RF" from_port="labelled data" to_op="RF (2)" to_port="labelled data"/>
+      <connect from_op="RF (2)" from_port="performance" to_port="result 3"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
+      <portSpacing port="sink_result 5" spacing="0"/>
+      <portSpacing port="sink_result 6" spacing="0"/>
+      <portSpacing port="sink_result 7" spacing="0"/>
+    </process>
+  </operator>
+</process>
